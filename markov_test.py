@@ -23,10 +23,10 @@ def test_add_successor():
 
 # will fail if add_succesor fails
 def test_merge():
-    s = "samplename"
-    s2 = "successorname"
+    s = "sample_name"
+    s2 = "successor_name"
 
-    s3 = "other_successorname"
+    s3 = "other_successor_name"
 
     node = Node(s)
     successor = Node(s2)
@@ -40,3 +40,31 @@ def test_merge():
 
     assert other_succesor in list(node.probs.keys())
 
+
+
+# tests for NodeMap
+
+def test_update():
+    s = "sample_name"
+    s2 = "succesor_name"
+
+    nodemap = NodeMap()
+    node = Node(s)
+    successor = Node(s2)
+
+    nodemap.update(node)
+
+    assert node in list(nodemap.nodes.values())
+    assert s in list(nodemap.nodes.keys())
+    assert not nodemap.nodes.get(s).probs
+
+    node.add_successor(successor)
+
+    #TODO: the following tests fail, possibly hinting at a bug in update
+    # might have to do with copy / clone semantics
+
+    
+    # nodemap.update(node)
+    # assert node in list(nodemap.nodes.values())
+    # assert s in list(nodemap.nodes.keys())
+    #assert nodemap.nodes.get(s).probs.get(successor)

@@ -57,8 +57,14 @@ class NodeMap:
         # add end of sentence symbol
         self.nodes["$"] = Node("$")
 
-    def update(self, key, other_node):
-        """Updates the node found for key string with the information in other_node"""
+    def update(self, other_node):
+        """Updates an equal node in self with the information in other_node,
+        adding other_node to self if no equal node is found"""
+
+        #TODO: rework from map to set, a string key is not needed as determination of node equality
+        #       is already provided with the __eq__ function
+
+        key = other_node.name()
         node = self.nodes.get(key)
         if node:
             self.nodes[key] = node.merge(other_node)
@@ -77,21 +83,19 @@ class NodeMap:
         # Start of sentence symbol to first word
         start = Node("^")
         start.add_successor(new_nodes[0])
-        self.update(start.name(), start)
+        self.update(start)
 
         # last word to end of sentence symbol
         last = new_nodes[-1]
         end = Node("$")
         last.add_successor(end)
-        self.update(last.name(), last)
+        self.update(last)
 
         # all other words and their successors
         for i in range(0, len(new_nodes)-1):
             node = new_nodes[i]
             node.add_successor(new_nodes[i+1])
-            self.update(node.name(), node)
-
-
+            self.update(node)
 
     def __str__(self):
         list = []
