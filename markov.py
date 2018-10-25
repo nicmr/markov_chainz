@@ -23,6 +23,8 @@ class Node:
             sum += k
         return sum
 
+        #stub
+
     def merge(self, other_node):
         """Merges the information of self and other_nodes into self.
         Please be aware it is not required for both nodes to have an identical name,
