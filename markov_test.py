@@ -21,6 +21,17 @@ def test_add_successor():
 
     assert successor in list(node.probs.keys())
 
+    #TODO: assert that optional argument (occurences) works
+
+# will fail if add_succesor fails
+def test_sum():
+    node = Node("samplename")
+
+    node.add_successor(Node("successor_name"))
+    node.add_successor(Node("successor_name"),2)
+
+    assert node.sum() == 3
+
 # will fail if add_succesor fails
 def test_merge():
     s = "sample_name"

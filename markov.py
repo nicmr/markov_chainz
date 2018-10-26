@@ -7,21 +7,36 @@ class Node:
         """Returns the name of `self`"""
         return self.__name
 
-    def probability(self):
-        """Returns the probability of the next node"""
-
-    def add_successor(self, other_node, occurences=1):
-        """Adds a new successor to the node, updating instead if the node already exists.
-            Optionally, occurences may be set to any uint number
-            to add multiple occurences of the successor node"""
-        self.probs[other_node]  = self.probs.get(other_node, 0) + occurences
-
-    def next(self):
-        """Randomly chooses one of the possible following nodes"""
+    def probability(self, node):
+        """Returns the probability of node to be the next node"""
+        
+    def sum(self):
+        """Returns the sum of all values found in self.probs"""
         sum = 0
         for k in self.probs.values():
             sum += k
+        
         return sum
+
+    def add_successor(self, successor, occurences=1):
+        """Adds a new successor to the node, merging the successor instead if it already exists.
+            Optionally, occurences may be set to any uint number
+            to add multiple occurences of a successor node"""
+        self.probs[successor]  = self.probs.get(successor, 0) + occurences
+
+    def next(self):
+        """Randomly chooses one of the possible following nodes"""
+        
+        
+        #CONCEPT #1
+        #sum determines integer range for RNG
+        #walk through probs, subtracting the corresponding integer value of each entry from rng number
+        #until rng = 0
+        #then choose current entry
+        #PRO:   - relatively simple
+        #CON:   - iteration through hashmap inefficient
+        #       - iteration through unordered collctions not guaranteed to be in order
+        #       -> these might be solved by using a treemap instead (possibly requiring own implementation)
 
         #stub
 
@@ -51,11 +66,6 @@ class Node:
 class NodeMap:
     def __init__(self):
         self.nodes = {}
-
-        # add beginning of sentence symbol
-        self.nodes["^"] = Node("^")
-        # add end of sentence symbol
-        self.nodes["$"] = Node("$")
 
     def update(self, other_node):
         """Updates an equal node in self with the information in other_node,
